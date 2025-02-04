@@ -1,9 +1,12 @@
 Package: aeolus
 Title: Unleash Useful Linebreaks in Markdown Documents
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R: c(
     person("Maëlle", "Salmon", , "msmaellesalmon@gmail.com", role = c("cre", "aut"),
-           comment = c(ORCID = "0000-0002-2815-0399"))
+           comment = c(ORCID = "0000-0002-2815-0399")),
+    person("rOpenSci", role = "fnd",
+           comment = c(ROR = "019jywm96"))
+  )
 Description: Add linebreaks at the end of sentences and remove other linebreaks.
 License: MIT + file LICENSE
 Encoding: UTF-8

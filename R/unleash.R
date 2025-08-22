@@ -36,6 +36,7 @@ unleash <- function(path, new_path = path) {
   purrr::walk(text, handle_text)
 
   yarn$write(new_path)
+
   invisible(new_path)
 }
 
@@ -45,10 +46,7 @@ handle_node <- function(node) {
 
   for (kiddo in xml2::xml_children(node)) {
     if (xml2::xml_name(kiddo) == "text") {
-      sentences <- tokenizers::tokenize_sentences(
-        xml2::xml_text(kiddo),
-        simplify = TRUE
-      )
+      sentences <- split_sentences(kiddo)
       if (length(sentences) > 1) {
         for (sentence in rev(sentences[-1])) {
           xml2::xml_add_sibling(
@@ -72,8 +70,11 @@ handle_node <- function(node) {
   }
 
   for (kiddo in xml2::xml_children(node)[-how_many_kiddos]) {
-    if (xml2::xml_name(kiddo) %in% c("text", "strong", "italic") &&
-        grepl("[\\.\\!\\?\\;\\:](\\*\\_)?$", xml2::xml_text(kiddo))) {
+    if (
+      xml2::xml_name(kiddo) %in%
+        c("text", "strong", "italic") &&
+        grepl("[\\.\\!\\?\\;\\:](\\*\\_)?$", xml2::xml_text(kiddo))
+    ) {
       xml2::xml_add_sibling(
         kiddo,
         "softbreak",
@@ -81,13 +82,12 @@ handle_node <- function(node) {
       )
     }
   }
-
 }
 
 handle_text <- function(text) {
   next_sibling <- xml2::xml_find_all(text, "following-sibling::*[1]")
   if (length(next_sibling) > 0 && xml2::xml_name(next_sibling) == "link") {
-    end_space <- grepl(" $", xml2::xml_text(text))
+    end_space <- endsWith(xml2::xml_text(text), " ")
     if (!end_space) {
       xml2::xml_text(text) <- paste0(xml2::xml_text(text), " ")
     }
@@ -99,4 +99,28 @@ handle_text <- function(text) {
       xml2::xml_text(text) <- sub("^ ", "", xml2::xml_text(text))
     }
   }
+}
+
+# https://stackoverflow.com/questions/74292177/split-a-string-and-keep-delimiter
+split_sentences <- function(xml_node) {
+  sentences <- unlist(strsplit(
+    xml2::xml_text(xml_node),
+    "(?<=.)(?<=[\\?\\!\\.])",
+    perl = TRUE
+  ))
+  if (length(sentences) < 2) {
+    return(xml2::xml_text(xml_node))
+  }
+  # now we have to put back together the punctuation that was split
+  punctuations <- which(sentences %in% c(".", "!", "?"))
+  punctuations <- setdiff(punctuations, 1)
+
+  for (i in seq_len(length(punctuations))) {
+    punct <- punctuations[i]
+    sentences[punct - 1] <- paste0(sentences[punct - 1], sentences[punct])
+    sentences <- sentences[-punct]
+    punctuations <- punctuations - 1
+  }
+
+  sentences
 }

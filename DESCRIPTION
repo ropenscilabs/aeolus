@@ -19,7 +19,6 @@ Imports:
     rlang,
     rstudioapi,
     tinkr (>= 0.2.0.9001),
-    tokenizers,
     xml2
 URL: https://docs.ropensci.org/aeolus/, https://github.com/maelle/aeolus
 BugReports: https://github.com/maelle/aeolus/issues

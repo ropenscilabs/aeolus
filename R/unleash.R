@@ -35,8 +35,38 @@ unleash <- function(path, new_path = path) {
   text <- xml2::xml_find_all(yarn$body, ".//d1:text")
   purrr::walk(text, handle_text)
 
-  yarn$write(new_path)
+  temp_file <- withr::local_tempfile()
+  yarn$write(temp_file)
 
+  # trailing lines
+  old_lines <- brio::read_lines(path)
+  if (old_lines[length(old_lines)] == "") {
+    rle <- rle(old_lines)
+    how_many_trailing <- rle[["lengths"]][length(rle[["lengths"]])]
+  } else {
+    how_many_trailing <- 0
+  }
+
+  new_lines <- brio::read_lines(temp_file)
+  if (new_lines[length(new_lines)] == "") {
+    rle <- rle(new_lines)
+    how_many_new_trailing <- rle[["lengths"]][length(rle[["lengths"]])]
+  } else {
+    how_many_new_trailing <- 0
+  }
+
+  if (how_many_new_trailing > how_many_trailing) {
+    new_lines <- new_lines[
+      1:(length(new_lines) - (how_many_new_trailing - how_many_trailing))
+    ]
+  } else if (how_many_new_trailing < how_many_trailing) {
+    new_lines <- c(
+      new_lines,
+      rep("", length.out = (how_many_trailing - how_many_new_trailing))
+    )
+  }
+
+  brio::write_lines(new_lines, new_path)
   invisible(new_path)
 }
 

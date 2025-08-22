@@ -145,7 +145,7 @@ split_sentences <- function(xml_node) {
   punctuations <- which(sentences %in% c(".", "!", "?"))
   punctuations <- setdiff(punctuations, 1)
 
-  for (i in seq_len(length(punctuations))) {
+  for (i in seq_along(punctuations)) {
     punct <- punctuations[i]
     sentences[punct - 1] <- paste0(sentences[punct - 1], sentences[punct])
     sentences <- sentences[-punct]

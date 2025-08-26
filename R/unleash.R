@@ -118,7 +118,8 @@ handle_text <- function(text) {
   next_sibling <- xml2::xml_find_all(text, "following-sibling::*[1]")
   if (length(next_sibling) > 0 && xml2::xml_name(next_sibling) == "link") {
     end_space <- endsWith(xml2::xml_text(text), " ")
-    if (!end_space) {
+    end_left_parenthesis <- endsWith(xml2::xml_text(text), "(")
+    if (!end_space && !end_left_parenthesis) {
       xml2::xml_text(text) <- paste0(xml2::xml_text(text), " ")
     }
   }

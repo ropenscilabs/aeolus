@@ -34,4 +34,6 @@
       [29] ""                                                                                                                                                        
       [30] "R has well-developed plotting capabilities, and the `ggplot2` package is one of, if not the most powerful pieces of plotting software available today!!!"
       [31] "We will begin learning to use `ggplot2` in the next episode."                                                                                            
+      [32] ""                                                                                                                                                        
+      [33] "This is a link in parentheses ([example](https://example.com))."                                                                                         
 

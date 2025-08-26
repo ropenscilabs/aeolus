@@ -30,3 +30,5 @@ This is a footnote [^ok].
 [^ok]: Some more information.
 
 R has well-developed plotting capabilities, and the `ggplot2` package is one of, if not the most powerful pieces of plotting software available today!!! We will begin learning to use `ggplot2` in the next episode.
+
+This is a link in parentheses ([example](https://example.com)).

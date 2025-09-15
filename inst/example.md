@@ -30,3 +30,15 @@ This is a footnote [^ok].
 [^ok]: Some more information.
 
 R has well-developed plotting capabilities, and the `ggplot2` package is one of, if not the most powerful pieces of plotting software available today!!! We will begin learning to use `ggplot2` in the next episode.
+
+1. **[Don't try to do everything](https://steffilazerte.ca/Presentations/2025-08-Open-Science/index.html#/tip-1-dont-try-to-do-everything)**
+    - Be kind to yourself
+    - You're allowed to smart small and grow!
+
+2. **[Do one new thing](https://steffilazerte.ca/Presentations/2025-08-Open-Science/index.html#/tip-2-do-one-new-thing)**
+    - On every project, try to expand your skill set, learn one more new thing
+
+3. **[It's okay to be nervous](https://steffilazerte.ca/Presentations/2025-08-Open-Science/index.html#/tip-3-its-okay-to-be-nervous)**
+steffilazerte marked this conversation as resolved.
+@maelle
+
